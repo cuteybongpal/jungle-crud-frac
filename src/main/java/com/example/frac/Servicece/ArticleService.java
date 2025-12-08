@@ -11,9 +11,9 @@ import java.util.List;
 public class ArticleService {
     private IArticleRepository repo;
 
-    public List<Article> getArticle(Example<Article> example)
+    public List<Article> GetAllArticle()
     {
-        List<Article> article_list = repo.findAll(example);
+        List<Article> article_list = repo.findAll();
         return article_list;
     }
     public ArticleService(IArticleRepository _repo)
