@@ -8,44 +8,51 @@
             <h1 class="page-title mb-1">게시글 목록</h1>
             <p class="page-description mb-0">모든 게시글을 확인하세요</p>
         </div>
-        <a class="btn btn-primary-custom" href="/articles/new">
-            글 쓰기
+        <a class="btn btn-primary-custom d-inline-flex align-items-center gap-2" href="/articles/new">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M5 12h14"/>
+            </svg>
+            글쓰기
         </a>
     </div>
 
-    <!-- 게시글 테이블 카드 -->
-    <div class="card-custom">
-        <div class="card-body p-0">
-            <table class="table table-custom mb-0">
-                <thead>
-                <tr>
-                    <th scope="col" style="width: 10%">번호</th>
-                    <th scope="col" style="width: 50%">제목</th>
-                    <th scope="col" style="width: 20%">작성자</th>
-                    <th scope="col" style="width: 20%">조회수</th>
-                </tr>
-                </thead>
-                <tbody th:if="${#lists.isEmpty(articles)}">
-                <tr>
-                    <td colspan="4" class="empty-state">
-                        아직 작성된 글이 없습니다. 첫 글의 주인공이 되어보세요!
-                    </td>
-                </tr>
-                </tbody>
-
-                <tbody th:each="article : ${articles}">
-                <tr>
-                    <td th:text="${article.Id}"></td>
-                    <!-- 제목을 상세 페이지로 링크 걸고 싶으면 th:href 쪽만 너 라우팅에 맞게 수정 -->
-                    <td>
-                        <a href="#" th:text="${article.Title}"></a>
-                    </td>
-                    <td class="text-muted-custom" th:text="${article.Author.Username}"></td>
-                    <td class="text-muted-custom" th:text="${article.Views}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <!-- 게시글이 없을 때 -->
+    <div th:if="${#lists.isEmpty(articles)}" class="card-custom">
+        <div class="card-body text-center py-5">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mb-3" style="color: var(--muted-foreground);">
+                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p class="text-muted-custom mb-3">아직 작성된 글이 없습니다.</p>
+            <a href="/articles/new" class="btn btn-primary-custom">첫 글 작성하기</a>
         </div>
+    </div>
+
+    <!-- 게시글 목록 (카드 형식) -->
+    <div th:unless="${#lists.isEmpty(articles)}" class="d-flex flex-column gap-3">
+        <a th:each="article : ${articles}"
+           th:href="@{/articles/{id}(id=${article.Id})}"
+           class="article-card">
+            <div class="article-title" th:text="${article.Title}">게시글 제목</div>
+            <div class="article-meta">
+                <div class="author">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span th:text="${article.Author.Username}">작성자</span>
+                </div>
+                <div class="stats">
+                    <div class="stat-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <span th:text="${article.Views}">0</span>
+                    </div>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 <script th:fragment="script">
