@@ -1,0 +1,811 @@
+/* ========================================
+   shadcn/ui 스타일 다크 테마
+   Bootstrap 오버라이드 포함
+   ======================================== */
+
+:root {
+    /* 배경 색상 */
+    --background: #09090b;
+    --foreground: #fafafa;
+
+    /* 카드 */
+    --card: #0a0a0c;
+    --card-foreground: #fafafa;
+    --card-border: #27272a;
+
+    /* 기본 색상 */
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+
+    /* 보조 색상 */
+    --secondary: #27272a;
+    --secondary-foreground: #fafafa;
+
+    /* Muted */
+    --muted: #27272a;
+    --muted-foreground: #a1a1aa;
+
+    /* 강조 색상 */
+    --accent: #27272a;
+    --accent-foreground: #fafafa;
+
+    /* 위험 색상 */
+    --destructive: #7f1d1d;
+    --destructive-foreground: #fafafa;
+
+    /* 테두리 & 입력 */
+    --border: #27272a;
+    --input: #27272a;
+    --ring: #d4d4d8;
+
+    /* 반경 */
+    --radius: 0.5rem;
+}
+
+/* ========================================
+   기본 스타일 리셋 & 다크모드 강제 적용
+   ======================================== */
+*,
+*::before,
+*::after {
+    border-color: var(--border);
+}
+
+html {
+    background-color: var(--background);
+    color-scheme: dark;
+}
+
+body {
+    background-color: var(--background) !important;
+    color: var(--foreground) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* 모든 텍스트 기본 색상 */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--foreground);
+}
+
+p, span, div, label {
+    color: var(--foreground);
+}
+
+a {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--muted-foreground);
+}
+
+/* ========================================
+   Bootstrap 오버라이드
+   ======================================== */
+
+/* Container */
+.container,
+.container-fluid {
+    background-color: transparent;
+}
+
+/* Card 오버라이드 */
+.card {
+    background-color: var(--card) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--radius) !important;
+    color: var(--card-foreground) !important;
+}
+
+.card-body {
+    background-color: transparent !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+/* Form Control 오버라이드 */
+.form-control {
+    background-color: var(--background) !important;
+    border: 1px solid var(--input) !important;
+    border-radius: var(--radius) !important;
+    color: var(--foreground) !important;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control::placeholder {
+    color: var(--muted-foreground) !important;
+}
+
+.form-control:focus {
+    background-color: var(--background) !important;
+    border-color: var(--ring) !important;
+    color: var(--foreground) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(212, 212, 216, 0.2) !important;
+}
+
+.form-label {
+    color: var(--foreground) !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Button 오버라이드 */
+.btn {
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+    border: none !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary) !important;
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background-color: var(--secondary) !important;
+    color: var(--secondary-foreground) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-secondary:hover {
+    background-color: var(--accent) !important;
+}
+
+.btn-success {
+    background-color: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+    border: none !important;
+}
+
+.btn-success:hover {
+    opacity: 0.9;
+}
+
+.btn-danger {
+    background-color: var(--destructive) !important;
+    color: var(--destructive-foreground) !important;
+    border: none !important;
+}
+
+.btn-outline-light,
+.btn-outline-primary,
+.btn-outline-secondary {
+    background-color: transparent !important;
+    color: var(--foreground) !important;
+    border: 1px solid var(--border) !important;
+}
+
+.btn-outline-light:hover,
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    background-color: var(--accent) !important;
+    color: var(--accent-foreground) !important;
+}
+
+.btn-outline-danger {
+    background-color: transparent !important;
+    color: #ef4444 !important;
+    border: 1px solid #ef4444 !important;
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--destructive) !important;
+    color: var(--destructive-foreground) !important;
+}
+
+/* Table 오버라이드 */
+.table {
+    color: var(--foreground) !important;
+    background-color: transparent !important;
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--foreground);
+    --bs-table-border-color: var(--border);
+    --bs-table-striped-bg: var(--muted);
+    --bs-table-hover-bg: var(--muted);
+    border-color: var(--border) !important;
+}
+
+.table > :not(caption) > * > * {
+    background-color: transparent !important;
+    color: var(--foreground) !important;
+    border-bottom-color: var(--border) !important;
+}
+
+.table thead {
+    border-bottom: 1px solid var(--border);
+}
+
+.table thead th {
+    background-color: transparent !important;
+    color: var(--muted-foreground) !important;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.table-light,
+.table-light > th,
+.table-light > td {
+    background-color: transparent !important;
+    color: var(--muted-foreground) !important;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s ease;
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: var(--muted) !important;
+    color: var(--foreground) !important;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    color: var(--foreground) !important;
+}
+
+.table tbody td a {
+    color: var(--foreground) !important;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.table tbody td a:hover {
+    color: var(--muted-foreground) !important;
+}
+
+/* Alert 오버라이드 */
+.alert {
+    border-radius: var(--radius);
+}
+
+.alert-danger {
+    background-color: rgba(127, 29, 29, 0.5) !important;
+    border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    color: #fca5a5 !important;
+}
+
+.alert-success {
+    background-color: rgba(22, 101, 52, 0.5) !important;
+    border: 1px solid rgba(34, 197, 94, 0.5) !important;
+    color: #86efac !important;
+}
+
+.alert-warning {
+    background-color: rgba(133, 77, 14, 0.5) !important;
+    border: 1px solid rgba(234, 179, 8, 0.5) !important;
+    color: #fde047 !important;
+}
+
+.alert-info {
+    background-color: rgba(30, 58, 138, 0.5) !important;
+    border: 1px solid rgba(59, 130, 246, 0.5) !important;
+    color: #93c5fd !important;
+}
+
+/* Background 유틸리티 오버라이드 */
+.bg-light {
+    background-color: var(--background) !important;
+}
+
+.bg-dark {
+    background-color: var(--background) !important;
+}
+
+.bg-white {
+    background-color: var(--card) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+/* Text 유틸리티 오버라이드 */
+.text-dark {
+    color: var(--foreground) !important;
+}
+
+.text-light {
+    color: var(--foreground) !important;
+}
+
+.text-muted {
+    color: var(--muted-foreground) !important;
+}
+
+.text-secondary {
+    color: var(--muted-foreground) !important;
+}
+
+.text-white {
+    color: var(--foreground) !important;
+}
+
+/* Shadow 오버라이드 */
+.shadow,
+.shadow-sm,
+.shadow-lg {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px -1px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Border 오버라이드 */
+.border {
+    border-color: var(--border) !important;
+}
+
+.border-0 {
+    border: none !important;
+}
+
+/* Dropdown 오버라이드 */
+.dropdown-menu {
+    background-color: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+}
+
+.dropdown-item {
+    color: var(--foreground) !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--accent) !important;
+    color: var(--accent-foreground) !important;
+}
+
+/* Modal 오버라이드 */
+.modal-content {
+    background-color: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border) !important;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--border) !important;
+}
+
+.modal-title {
+    color: var(--foreground) !important;
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* ========================================
+   네비게이션 바
+   ======================================== */
+.navbar {
+    background-color: var(--background) !important;
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar-dark-custom {
+    background-color: var(--background) !important;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    color: var(--foreground) !important;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark-custom .navbar-brand {
+    color: var(--foreground) !important;
+}
+
+.nav-link {
+    color: var(--muted-foreground) !important;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--foreground) !important;
+}
+
+.navbar-dark .nav-link,
+.navbar-dark-custom .nav-link {
+    color: var(--muted-foreground) !important;
+}
+
+.navbar-dark .nav-link:hover,
+.navbar-dark .nav-link.active,
+.navbar-dark-custom .nav-link:hover,
+.navbar-dark-custom .nav-link.active {
+    color: var(--foreground) !important;
+}
+
+.navbar-toggler {
+    border-color: var(--border) !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28250, 250, 250, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* ========================================
+   커스텀 버튼 스타일
+   ======================================== */
+.btn-primary-custom {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: opacity 0.2s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    opacity: 0.9;
+}
+
+.btn-secondary-custom {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary-custom:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.btn-outline-custom {
+    background-color: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.btn-destructive-custom {
+    background-color: var(--destructive);
+    color: var(--destructive-foreground);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: opacity 0.2s ease;
+}
+
+.btn-destructive-custom:hover {
+    background-color: var(--destructive);
+    opacity: 0.9;
+    color: var(--destructive-foreground);
+}
+
+.btn-ghost-custom {
+    background-color: transparent;
+    color: var(--foreground);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-ghost-custom:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+}
+
+/* ========================================
+   카드 스타일
+   ======================================== */
+.card-custom {
+    background-color: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    color: var(--card-foreground);
+}
+
+.card-custom .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem;
+}
+
+.card-custom .card-body {
+    padding: 1.5rem;
+}
+
+.card-custom .card-title {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+}
+
+.card-custom .card-description {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   입력 필드 스타일
+   ======================================== */
+.form-control-custom {
+    background-color: var(--background);
+    border: 1px solid var(--input);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-control-custom::placeholder {
+    color: var(--muted-foreground);
+}
+
+.form-control-custom:focus {
+    background-color: var(--background);
+    border-color: var(--ring);
+    color: var(--foreground);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(212, 212, 216, 0.2);
+}
+
+.form-label-custom {
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* ========================================
+   테이블 스타일
+   ======================================== */
+.table-custom {
+    color: var(--foreground);
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-custom thead {
+    border-bottom: 1px solid var(--border);
+}
+
+.table-custom thead th {
+    background-color: transparent;
+    color: var(--muted-foreground);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.table-custom tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.2s ease;
+}
+
+.table-custom tbody tr:hover {
+    background-color: var(--muted);
+}
+
+.table-custom tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table-custom tbody td a {
+    color: var(--foreground);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.table-custom tbody td a:hover {
+    color: var(--muted-foreground);
+}
+
+/* ========================================
+   알림 스타일
+   ======================================== */
+.alert-custom {
+    background-color: rgba(127, 29, 29, 0.5);
+    border: 1px solid rgba(239, 68, 68, 0.5);
+    border-radius: var(--radius);
+    color: #fca5a5;
+    padding: 1rem;
+}
+
+.alert-custom ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* ========================================
+   링크 스타일
+   ======================================== */
+.link-custom {
+    color: var(--muted-foreground);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.link-custom:hover {
+    color: var(--foreground);
+    text-decoration: underline;
+}
+
+/* ========================================
+   텍스트 유틸리티
+   ======================================== */
+.text-muted-custom {
+    color: var(--muted-foreground) !important;
+}
+
+.text-foreground {
+    color: var(--foreground) !important;
+}
+
+/* ========================================
+   페이지 타이틀
+   ======================================== */
+.page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--foreground);
+}
+
+.page-description {
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+/* ========================================
+   컨테이너 & 레이아웃
+   ======================================== */
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.auth-container {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background-color: var(--background);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ========================================
+   빈 상태 스타일
+   ======================================== */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted-foreground);
+}
+
+/* ========================================
+   뱃지 스타일
+   ======================================== */
+.badge-custom {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border-radius: 9999px;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge {
+    background-color: var(--secondary) !important;
+    color: var(--secondary-foreground) !important;
+}
+
+/* ========================================
+   스크롤바 스타일
+   ======================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--muted);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) var(--background);
+}
+
+/* ========================================
+   Selection 스타일
+   ======================================== */
+::selection {
+    background-color: rgba(250, 250, 250, 0.2);
+    color: var(--foreground);
+}
+
+/* ========================================
+   Focus 스타일
+   ======================================== */
+*:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   애니메이션
+   ======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}

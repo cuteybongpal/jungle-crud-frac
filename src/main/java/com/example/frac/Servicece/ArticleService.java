@@ -1,5 +1,6 @@
 package com.example.frac.Servicece;
 
+import com.example.frac.Entity.Account;
 import com.example.frac.Entity.Article;
 import com.example.frac.Repository.IArticleRepository;
 import org.springframework.data.domain.Example;
@@ -11,13 +12,24 @@ import java.util.List;
 public class ArticleService {
     private IArticleRepository repo;
 
+    public ArticleService(IArticleRepository _repo)
+    {
+        repo = _repo;
+    }
+
     public List<Article> GetAllArticle()
     {
         List<Article> article_list = repo.findAll();
         return article_list;
     }
-    public ArticleService(IArticleRepository _repo)
+
+    public Article CreateArticle(String title, String content, Account author)
     {
-        repo = _repo;
+        Article article = new Article();
+        article.setTitle(title);
+        article.setContent(content);
+        article.setAuthor(author);
+        article.setViews(0);
+        return repo.save(article);
     }
 }

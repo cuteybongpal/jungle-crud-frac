@@ -20,7 +20,11 @@ public class SecurityConfig
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(requestmatcher ->
-                        requestmatcher.requestMatchers("/","/js/**", "/imgs/**", "/account/**", "/articles/**").permitAll())
+                        requestmatcher
+                                .requestMatchers("/", "/css/**", "/js/**", "/imgs/**", "/account/**").permitAll()
+                                .requestMatchers("/articles/new").authenticated()
+                                .requestMatchers("/articles/**").permitAll()
+                                .anyRequest().permitAll())
                 .formLogin(login -> login
                         .loginPage("/account/signin")
                         .loginProcessingUrl("/account/signin")

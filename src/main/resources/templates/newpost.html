@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::content}, ~{::script})">
+<div th:fragment="content" class="content-container">
+    <div class="mb-4">
+        <h1 class="page-title mb-2">새 글 작성</h1>
+        <p class="page-description">게시판에 새로운 글을 작성합니다</p>
+    </div>
+
+    <div class="card-custom">
+        <div class="card-body p-4">
+            <form id="postForm" method="post" action="/articles/new">
+                <div class="mb-3">
+                    <label for="title" class="form-label">제목</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="content" class="form-label">내용</label>
+                    <textarea class="form-control" id="content" name="content" rows="12" placeholder="내용을 입력하세요" required></textarea>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="/" class="btn btn-secondary-custom">취소</a>
+                    <button type="submit" class="btn btn-primary-custom">작성하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:fragment="script">
+
+</script>
+</html>
