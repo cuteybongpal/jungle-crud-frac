@@ -1,9 +1,6 @@
 package com.example.frac.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Article {
@@ -12,6 +9,9 @@ public class Article {
     public Integer Id;
 
     public String Title;
-
     public String Content;
+
+    @ManyToOne
+    public Account Author;
+    public int Views;
 }
