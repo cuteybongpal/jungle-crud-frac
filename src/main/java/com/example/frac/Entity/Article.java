@@ -1,17 +1,21 @@
 package com.example.frac.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer Id;
+    private Integer id;
 
-    public String Title;
-    public String Content;
+    private String title;
+    private String content;
 
     @ManyToOne
-    public Account Author;
-    public int Views;
+    private Account author;
+    private int views;
 }
