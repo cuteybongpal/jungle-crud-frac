@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::content}, ~{::script})">
+<div th:fragment="content" class="container py-5">
+    <!-- 상단 영역: 제목 + 글쓰기 버튼 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">게시글 목록</h2>
+<!--            <p class="text-muted mb-0">효원이의 아름다운 프랙탈 게시판 💫</p>-->
+        </div>
+        <a class="btn btn-success btn-lg" href="/articles/new">
+            글 쓰기
+        </a>
+    </div>
+
+    <!-- 게시글 테이블 카드 -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col" style="width: 10%">번호</th>
+                    <th scope="col" style="width: 50%">제목</th>
+                    <th scope="col" style="width: 20%">작성자</th>
+                    <th scope="col" style="width: 20%">조회수</th>
+                </tr>
+                </thead>
+                <tbody th:if="${#lists.isEmpty(articles)}">
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">
+                        아직 작성된 글이 없습니다. 첫 글의 주인공이 되어봐! ✏️
+                    </td>
+                </tr>
+                </tbody>
+
+                <tbody th:each="article : ${articles}">
+                <tr>
+                    <th scope="row" th:text="${article.Id}"></th>
+                    <!-- 제목을 상세 페이지로 링크 걸고 싶으면 th:href 쪽만 너 라우팅에 맞게 수정 -->
+                    <td>
+                        <a href="#"
+                           class="text-decoration-none text-dark fw-semibold"
+                           th:text="${article.Title}">
+                        </a>
+                    </td>
+                    <td th:text="${article.Author.Username}"></td>
+                    <td th:text="${article.Views}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:fragment="script">
+
+</script>
+</html>
