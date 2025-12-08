@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(~{::content}, ~{::script})">
+<div class="container mt-5" th:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+
+                    <h3 class="text-center mb4 fw-bold">회원가입</h3>
+
+                    <form id="signupform" method="post" action="/account/signup">
+
+                        <div class="mb-3">
+                            <label class="form-label">아이디</label>
+                            <input type="text" class="form-control" name="username" id="id" placeholder="아이디 입력">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" name="password" id="pw" placeholder="비밀번호 입력">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" name="passwordCheck" id="pwCheck" placeholder="비밀번호 재입력">
+                        </div>
+
+                        <button type="button" onclick="SignUp()" class="btn btn-primary w-100 py-2">가입하기</button>
+
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="account/signin" class="text-decoration-none">이미 계정이 있다면 로그인.</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script th:fragment="script">
+    function SignUp()
+    {
+        let password = $('#pw').val()
+        let passwordCheck = $('#pwCheck').val()
+        if (password != passwordCheck)
+        {
+            alert("비밀 번호가 일치하지 않습니다.");
+            $('#pwCheck').focus();
+            return;
+        }
+        $('#signupform').submit()
+    }
+</script>
 </html>
