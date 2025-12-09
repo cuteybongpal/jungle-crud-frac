@@ -1,10 +1,181 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="layout :: layout(~{::content}, ~{::script})">
+<div th:fragment="content" class="content-container" style="max-width: 800px;">
+    <!-- 상단 네비게이션 -->
+    <div class="mb-4">
+        <a href="/" class="link-custom d-inline-flex align-items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m15 18-6-6 6-6"/>
+            </svg>
+            목록으로 돌아가기
+        </a>
+    </div>
 
-</body>
+    <!-- 게시글 카드 -->
+    <article class="card-custom">
+        <!-- 헤더 -->
+        <div class="card-body p-4 pb-0">
+            <h1 class="page-title mb-3" th:text="${article.title}">게시글 제목</h1>
+
+            <!-- 메타 정보 -->
+            <div class="d-flex align-items-center gap-4 pb-4" style="border-bottom: 1px solid var(--border);">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; background-color: var(--secondary);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <span th:text="${article.author.username}">작성자명</span>
+                </div>
+                <span class="text-muted-custom" style="font-size: 0.875rem;">
+                    조회 <span th:text="${article.views}">0</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- 본문 -->
+        <div class="card-body p-4">
+            <div class="article-content" style="min-height: 200px; white-space: pre-wrap; line-height: 1.8;" th:text="${article.content}">
+                게시글 내용이 여기에 표시됩니다.
+            </div>
+        </div>
+
+        <!-- 좋아요 섹션 -->
+        <div class="card-body p-4 pt-0">
+            <div class="d-flex align-items-center gap-3" style="padding-top: 1rem; border-top: 1px solid var(--border);">
+                <!-- 로그인 사용자: 좋아요 버튼 -->
+                <form sec:authorize="isAuthenticated()" th:action="@{/articles/{id}/like(id=${article.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-like d-flex align-items-center gap-2" th:classappend="${hasLiked} ? 'liked' : ''">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" th:fill="${hasLiked} ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                        </svg>
+                        좋아요 <span th:text="${likeCount}">0</span>
+                    </button>
+                </form>
+                <!-- 비로그인 사용자: 좋아요 수만 표시 -->
+                <div sec:authorize="isAnonymous()" class="d-flex align-items-center gap-2 text-muted-custom">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                    </svg>
+                    좋아요 <span th:text="${likeCount}">0</span>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- 댓글 섹션 -->
+    <section class="mt-4">
+        <div class="card-custom">
+            <div class="card-body p-4">
+                <h3 class="mb-4" style="font-size: 1.125rem; font-weight: 600;">
+                    댓글 <span class="text-muted-custom" th:text="${#lists.size(comments)}">0</span>
+                </h3>
+
+                <!-- 댓글 작성 폼 (로그인 사용자만) -->
+                <form sec:authorize="isAuthenticated()" th:action="@{/articles/{id}/comment(id=${article.id})}" method="post" class="mb-4">
+                    <div class="mb-3">
+                        <textarea class="form-control" name="content" rows="3" placeholder="댓글을 작성하세요..." required style="resize: none;"></textarea>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary-custom">댓글 작성</button>
+                    </div>
+                </form>
+
+                <!-- 비로그인 안내 -->
+                <div sec:authorize="isAnonymous()" class="mb-4 p-3 text-center" style="background-color: var(--secondary); border-radius: var(--radius);">
+                    <span class="text-muted-custom">댓글을 작성하려면 </span>
+                    <a href="/account/signin" class="link-custom">로그인</a>
+                    <span class="text-muted-custom">하세요.</span>
+                </div>
+
+                <!-- 댓글 목록 -->
+                <div class="comments-list">
+                    <!-- 댓글이 없을 때 -->
+                    <div th:if="${#lists.isEmpty(comments)}" class="text-center py-4 text-muted-custom">
+                        아직 댓글이 없습니다. 첫 댓글을 남겨보세요!
+                    </div>
+
+                    <!-- 댓글 목록 -->
+                    <div th:each="comment, iterStat : ${comments}" class="comment-item" th:classappend="${!iterStat.last} ? 'mb-3 pb-3'" th:style="${!iterStat.last} ? 'border-bottom: 1px solid var(--border);' : ''">
+                        <div class="d-flex gap-3">
+                            <!-- 프로필 아이콘 -->
+                            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; background-color: var(--secondary);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <!-- 댓글 내용 -->
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <span class="fw-medium" th:text="${comment.author.username}">작성자</span>
+                                    <span class="text-muted-custom" style="font-size: 0.75rem;" th:text="${#temporals.format(comment.createdAt, 'yyyy.MM.dd HH:mm')}">2024.01.01 12:00</span>
+                                </div>
+                                <p class="mb-0" style="white-space: pre-wrap; line-height: 1.6;" th:text="${comment.content}">댓글 내용</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 하단 버튼 -->
+    <div class="d-flex justify-content-between mt-4">
+        <div>
+            <button th:if="${isAuthor}" type="button" class="btn btn-destructive-custom d-inline-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"/>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                    <line x1="10" x2="10" y1="11" y2="17"/>
+                    <line x1="14" x2="14" y1="11" y2="17"/>
+                </svg>
+                삭제
+            </button>
+        </div>
+        <div>
+            <a href="/" class="btn btn-secondary-custom">목록</a>
+        </div>
+    </div>
+
+    <!-- 삭제 확인 모달 -->
+    <div th:if="${isAuthor}" class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">게시글 삭제</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 40px; height: 40px; background-color: var(--destructive);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                                <path d="M12 9v4"/>
+                                <path d="M12 17h.01"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="mb-1" style="font-weight: 500;">정말 이 게시글을 삭제하시겠습니까?</p>
+                            <p class="mb-0 text-muted-custom" style="font-size: 0.875rem;">삭제된 게시글은 복구할 수 없으며, 모든 댓글과 좋아요도 함께 삭제됩니다.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary-custom" data-bs-dismiss="modal">취소</button>
+                    <form th:action="@{/articles/{id}/delete(id=${article.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-destructive-custom">삭제</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:fragment="script">
+
+</script>
 </html>
